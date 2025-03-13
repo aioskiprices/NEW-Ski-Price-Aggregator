@@ -68,10 +68,7 @@ def get_ski_info(url):
 
 # Example usage
 urls = [
-    "https://www.untracked.com/p8097-25_icelantic_nomad_112_freeride_all_mountain_skis.html",
-    "https://www.untracked.com/p8100-25_icelantic_saba_117_big_mountain_freeride_skis.html",
-    "https://www.untracked.com/p8089c14b43-25_atomic_maven_86_c_womens_all_mountain_skis.html",
-    "https://www.untracked.com/p8169c101b53-25_volkl_m7_mantra_96_skis_w_tyrolia_attack_14gw_black_bindings.html"
+   
 ]
 
 for url in urls:

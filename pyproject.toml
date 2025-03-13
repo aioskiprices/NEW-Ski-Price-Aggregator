@@ -1,10 +1,14 @@
-[project]
-name = "python-template"
+[tool.poetry]
+name = "ski-price-aggregator"
 version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
-requires-python = ">=3.11"
-dependencies = [
-    "beautifulsoup4>=4.13.3",
-    "requests>=2.32.3",
-]
+description = "A tool to track ski prices across different websites"
+authors = ["Your Name"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+requests = "^2.31.0"
+beautifulsoup4 = "^4.12.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

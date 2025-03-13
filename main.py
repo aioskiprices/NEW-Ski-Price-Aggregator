@@ -1,21 +1,20 @@
-
+import json
 from untracked import get_ski_info
 
-def main():
-    # Example URLs to test
-    urls = [
-        "https://www.untracked.com/p8097-25_icelantic_nomad_112_freeride_all_mountain_skis.html",
-        "https://www.untracked.com/p8100-25_icelantic_saba_117_big_mountain_freeride_skis.html"
-    ]
+def update_ski_prices():
+    # Read the current JSON file
+    with open('ski_prices.json', 'r') as file:
+        data = json.load(file)
     
-    for url in urls:
-        info = get_ski_info(url)
-        print(f"URL: {url}")
-        print(f"Product Name: {info['name']}")
-        print(f"Price: {info['price']}")
-        if 'error' in info:
-            print(f"Error (if any): {info['error']}")
-        print('-' * 60)
+    # Update prices for each ski
+    for ski in data['skis']:
+        info = get_ski_info(ski['site_url'])
+        ski['current_price'] = info['price']
+        print(f"Updated {ski['ski_name']}: {ski['current_price']}")
+    
+    # Write the updated data back to the JSON file
+    with open('ski_prices.json', 'w') as file:
+        json.dump(data, file, indent=4)
 
 if __name__ == "__main__":
-    main()
+    update_ski_prices()

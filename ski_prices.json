@@ -1,0 +1,22 @@
+{
+    "skis": [
+        {
+            "site_name": "Untracked",
+            "site_url": "https://www.untracked.com/p8097-25_icelantic_nomad_112_freeride_all_mountain_skis.html",
+            "ski_name": "Icelantic Nomad 112 Freeride All Mountain Skis",
+            "current_price": "$899.00"
+        },
+        {
+            "site_name": "Untracked",
+            "site_url": "https://www.untracked.com/p8100-25_icelantic_saba_117_big_mountain_freeride_skis.html",
+            "ski_name": "Icelantic Saba 117 Big Mountain Freeride Skis",
+            "current_price": "$579.95"
+        },
+        {
+            "site_name": "Untracked",
+            "site_url": "https://www.untracked.com/p8098-25_icelantic_nomad_95_freeride_all_mountain_skis.html",
+            "ski_name": "Icelantic Nomad 95 Freeride All Mountain Skis",
+            "current_price": "$579.95"
+        }
+    ]
+}
