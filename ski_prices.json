@@ -17,6 +17,12 @@
             "site_url": "https://www.untracked.com/p8098-25_icelantic_nomad_95_freeride_all_mountain_skis.html",
             "ski_name": "Icelantic Nomad 95 Freeride All Mountain Skis",
             "current_price": "$579.95"
+        },
+        {
+            "site_name": "Christy Sports",
+            "site_url": "https://www.christysports.com/product/blizzard-black-pearl-94-skis-womens/8111778.html?dwvar_8111778_color=000",
+            "ski_name": "Blizzard Black Pearl 94 Skis - Womens",
+            "current_price": "$749.99"
         }
     ]
 }
