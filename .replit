@@ -26,3 +26,6 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "python3 main.py"
+
+[env]
+PYTHONPATH = "${PYTHONPATH}:${REPL_HOME}"
