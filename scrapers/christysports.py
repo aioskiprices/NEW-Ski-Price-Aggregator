@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import json
 
 def get_ski_info_christysports(url):
     """
@@ -17,9 +18,9 @@ def get_ski_info_christysports(url):
     try:
         headers = {
             'User-Agent': (
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
                 'AppleWebKit/537.36 (KHTML, like Gecko) '
-                'Chrome/91.0.4472.124 Safari/537.36'
+                'Chrome/114.0.0.0 Safari/537.36'
             )
         }
         response = requests.get(url, headers=headers)
@@ -34,16 +35,30 @@ def get_ski_info_christysports(url):
         soup = BeautifulSoup(response.content, 'html.parser')
 
         # ----- 1) Product name -----
-        # Looks for: <h1 class="product-name hidden-sm-down">...</h1>
-        name_element = soup.select_one('h1.product-name.hidden-sm-down')
+        name_element = soup.find('h1', class_='product-name hidden-sm-down')
         product_name = name_element.get_text(strip=True) if name_element else "Name not found"
 
         # ----- 2) Price -----
-        # One CSS selector to find either:
-        #   1) Discounted price => .price .sales .value
-        #   2) No discount price => .no-discount-price span
         price_element = soup.select_one('.price .sales .value, .no-discount-price span')
         price = price_element.get_text(strip=True) if price_element else "Price not found"
+
+        # ----- 3) Update JSON file with new name if found -----
+        if product_name != "Name not found":
+            try:
+                with open('ski_prices.json', 'r') as file:
+                    data = json.load(file)
+                
+                # Find and update the ski name for this URL
+                for ski in data['skis']:
+                    if ski['site_name'] == 'Christy Sports' and ski['site_url'] == url:
+                        ski['ski_name'] = product_name
+                        break
+                
+                # Write the updated data back to the JSON file
+                with open('ski_prices.json', 'w') as file:
+                    json.dump(data, file, indent=4)
+            except Exception as e:
+                print(f"Error updating ski name in JSON: {str(e)}")
 
         return {
             "name": product_name,

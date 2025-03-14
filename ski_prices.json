@@ -3,26 +3,143 @@
         {
             "site_name": "Untracked",
             "site_url": "https://www.untracked.com/p8097-25_icelantic_nomad_112_freeride_all_mountain_skis.html",
-            "ski_name": "Icelantic Nomad 112 Freeride All Mountain Skis",
-            "current_price": "$899.00"
+            "ski_name": "'25 Icelantic Nomad 112 Freeride All Mountain Skis",
+            "current_price": "$899.00",
+            "year": 2025
         },
         {
             "site_name": "Untracked",
             "site_url": "https://www.untracked.com/p8100-25_icelantic_saba_117_big_mountain_freeride_skis.html",
-            "ski_name": "Icelantic Saba 117 Big Mountain Freeride Skis",
-            "current_price": "$579.95"
-        },
-        {
-            "site_name": "Untracked",
-            "site_url": "https://www.untracked.com/p8098-25_icelantic_nomad_95_freeride_all_mountain_skis.html",
-            "ski_name": "Icelantic Nomad 95 Freeride All Mountain Skis",
-            "current_price": "$579.95"
+            "ski_name": "'25 Liberty Scope 104 Freeride Skis",
+            "current_price": "$579.95",
+            "year": 2025
         },
         {
             "site_name": "Christy Sports",
             "site_url": "https://www.christysports.com/product/blizzard-black-pearl-94-skis-womens/8111778.html?dwvar_8111778_color=000",
-            "ski_name": "Blizzard Black Pearl 94 Skis - Womens",
-            "current_price": "$749.99"
+            "ski_name": "Blizzard Black Pearl 94 Skis Womens",
+            "current_price": "$749.99",
+            "year": 2024
+        },
+        {
+            "site_name": "Christy Sports",
+            "site_url": "https://www.christysports.com/product/blizzard-rustler-9-skis-mens/8106089.html?dwvar_8106089_color=000&cgid=ski",
+            "ski_name": "Blizzard Rustler 9 Skis Mens",
+            "current_price": "$599.96",
+            "year": 2024
+        },
+        {
+            "site_name": "Evo",
+            "site_url": "https://www.evo.com/skis/atomic-bent-100-2025",
+            "ski_name": "Atomic Bent 100 Skis 2025",
+            "current_price": "$519.96",
+            "year": 2025
+        },
+        {
+            "site_name": "Evo",
+            "site_url": "https://www.evo.com/skis/black-crows-mirus-cor#image=253570/1103863/black-crows-mirus-cor-skis-2025-.jpg",
+            "ski_name": "Black Crows Mirus Cor Skis 2025",
+            "current_price": "$999.00",
+            "year": 2025
+        },
+        {
+            "site_name": "Utah Ski Gear",
+            "site_url": "https://www.utahskigear.com/products/stockli-montero-ar-predrilled-w-strive-13d-binding-23-24?variant=44002521448666&currency=USD",
+            "ski_name": "Stockli Montero AR Skis with Strive 13D Binding",
+            "current_price": "$1,084.85",
+            "year": 2024
+        },
+        {
+            "site_name": "Utah Ski Gear",
+            "site_url": "https://www.utahskigear.com/collections/skis/products/fischer-rc4-worldcup-sl-ski-2025-womens-m-plate",
+            "ski_name": "Fischer RC4 Worldcup SL Skis - 2025 Womens M Plate",
+            "current_price": "$619.64",
+            "year": 2025
+        },
+        {
+            "site_name": "Ski Haus",
+            "site_url": "https://skihaus.com/2024-montero-ar-flat-ski/",
+            "ski_name": "2024 Montero AR Flat Ski",
+            "current_price": "$945.00",
+            "year": 2024
+        },
+        {
+            "site_name": "Ski Haus",
+            "site_url": "https://skihaus.com/2025-odermatt-wrt-pro-mens-system-ski/",
+            "ski_name": "2026 Odermatt WRT Pro Men's System Ski",
+            "current_price": "$2,179.00",
+            "year": 2026
+        },
+        {
+            "site_name": "Boot Pro",
+            "site_url": "https://www.thebootpro.net/montero-ar-2024.html",
+            "ski_name": "Stockli Montero AR 2024",
+            "current_price": "$1,069.00",
+            "year": 2024
+        },
+        {
+            "site_name": "Boot Pro",
+            "site_url": "https://www.thebootpro.net/backland-102-2025.html?id=108093684",
+            "ski_name": "Atomic Backland 102 2025",
+            "current_price": "$749.95",
+            "year": 2025
+        },
+        {
+            "site_name": "Black Crows",
+            "site_url": "https://www.black-crows.com/us/en/p/mirus-cor/102138-orange-vg.html",
+            "ski_name": "Mirus Cor",
+            "current_price": "$999.00",
+            "year": 2025
+        },
+        {
+            "site_name": "Black Crows",
+            "site_url": "https://www.black-crows.com/us/en/p/corvus-freebird/101656-pink-vg.html",
+            "ski_name": "Corvus Freebird",
+            "current_price": "$1,049.00",
+            "year": 2025
+        },
+        {
+            "site_name": "Baker Street",
+            "site_url": "https://bakerstsnow.com/products/black-crows-mirus-cor-skis-2025?variant=44603993522353&currency=USD",
+            "ski_name": "Black Crows Mirus Cor Skis | 2025",
+            "current_price": "$ 699.96 USD",
+            "image_url": "https://cdn.shopify.com/s/files/1/0670/5135/6456/files/2025-black-crows-mirus-cor-skis-102138-102138.jpg?v=1741778075&width=800&height=800&crop=center",
+            "year": 2025
+        },
+        {
+            "site_name": "Baker Street",
+            "site_url": "https://bakerstsnow.com/collections/armada/products/armada-arv-116-jj-ul-skis-2025",
+            "ski_name": "Armada ARV 116 JJ UL Skis | 2025",
+            "current_price": "$ 719.96 USD",
+            "year": 2025
+        },
+        {
+            "site_name": "GearX",
+            "site_url": "https://www.gearx.com/black-crows-mirus-cor-f24?manufacturer_color=2565&length_cm=40594&gad_source=1",
+            "ski_name": "Black Crows - Mirus Cor",
+            "current_price": "$999.95",
+            "year": 2024
+        },
+        {
+            "site_name": "GearX",
+            "site_url": "https://www.gearx.com/black-diamond-impulse-112-skis-187",
+            "ski_name": "Black Diamond - Impulse 112 Skis",
+            "current_price": "$499.99",
+            "year": 2024
+        },
+        {
+            "site_name": "Sports Basement",
+            "site_url": "https://shop.sportsbasement.com/products/montero-ax-1",
+            "ski_name": "Montero AX",
+            "current_price": "$1,349.00",
+            "year": 2024
+        },
+        {
+            "site_name": "Sports Basement",
+            "site_url": "https://shop.sportsbasement.com/products/bent-92",
+            "ski_name": "Bent 90",
+            "current_price": "$549.95",
+            "year": 2024
         }
     ]
 }

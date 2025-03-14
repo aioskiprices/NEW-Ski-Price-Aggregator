@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SkiSniper - Find Your Perfect Skis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #BBFF00;
+            --dark-bg: #0A0C0F;
+            --card-bg: rgba(20, 24, 28, 0.7);
+            --text-color: #FFFFFF;
+            --secondary-text: #9BA1A6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 0;
+            background: radial-gradient(circle at top, #141B24, var(--dark-bg));
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 6rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(10, 12, 15, 0.8);
+            position: relative;
+        }
+
+        .nav-container {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            margin-left: 6rem;
+        }
+
+        .nav-link {
+            color: var(--secondary-text);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-link:hover {
+            color: var(--text-color);
+        }
+
+        .logo {
+            position: absolute;
+            left: 6rem;
+        }
+
+        .auth-buttons {
+            position: absolute;
+            right: 6rem;
+        }
+
+        .sign-in {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .get-started {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            padding: 0.75rem 1.5rem;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .logo-icon {
+            background: var(--primary-color);
+            padding: 0.5rem;
+            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon i {
+            color: var(--dark-bg);
+            font-size: 1.25rem;
+        }
+
+        .logo-text {
+            color: var(--text-color);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .live-tag {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--dark-bg);
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+            background: var(--primary-color);
+            width: fit-content;
+            padding: 0.75rem 1.25rem;
+            border-radius: 100px;
+            font-weight: 600;
+        }
+
+        .live-tag i {
+            color: var(--dark-bg);
+            font-size: 0.5rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 6rem;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-title span {
+            color: var(--primary-color);
+        }
+
+        .hero-description {
+            color: var(--secondary-text);
+            font-size: 1.125rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .search-container {
+            background: rgba(20, 24, 28, 0.9);
+            border-radius: 24px;
+            padding: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-container i {
+            color: var(--secondary-text);
+            font-size: 1.25rem;
+            margin-left: 1rem;
+        }
+
+        .search-input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.125rem;
+            padding: 0.75rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: var(--secondary-text);
+        }
+
+        .search-button {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-right: 0.5rem;
+        }
+
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            height: calc(100vh - 450px);
+        }
+
+        .deal-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            overflow: hidden;
+            text-decoration: none;
+            height: 100%;
+            max-height: 450px;
+            position: relative;
+            transition: transform 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .deal-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .deal-image {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .best-deal-tag {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .deal-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.25rem;
+            background: rgba(20, 24, 28, 0.95);
+            backdrop-filter: blur(8px);
+        }
+
+        .deal-title {
+            color: var(--text-color);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .price-info {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .current-price {
+            color: var(--text-color);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .original-price {
+            color: var(--secondary-text);
+            text-decoration: line-through;
+            font-size: 0.875rem;
+        }
+
+        .deal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .save-amount {
+            color: var(--primary-color);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .from-text {
+            color: var(--secondary-text);
+            font-size: 0.875rem;
+        }
+
+        .trusted-text {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 6rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="/" class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-skiing"></i>
+            </div>
+            <span class="logo-text">SkiSniper</span>
+        </a>
+        <nav class="nav-links">
+            <a href="/compare" class="nav-link">Compare</a>
+            <a href="/brands" class="nav-link">Brands</a>
+            <a href="/deals" class="nav-link">Deals</a>
+        </nav>
+        <div class="auth-buttons">
+            <a href="/signin" class="sign-in">Sign in</a>
+            <a href="/signup" class="get-started">Get started</a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="hero-content">
+            <div class="live-tag">
+                <i class="fas fa-circle"></i>
+                Live ski prices from 10+ retailers
+            </div>
+            <h1 class="hero-title">Find your perfect <span>skis</span> for less</h1>
+            <p class="hero-description">Compare prices across top retailers and find the best deals on premium skis.</p>
+        </div>
+
+        <div class="deals-section">
+            <form method="POST" action="/" class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" name="ski_name" class="search-input" placeholder="Search for skis (e.g., Black Crows, Atomic, etc.)" required>
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search"></i>
+                    Find Best Deals
+                </button>
+            </form>
+
+            <div class="deals-grid">
+                {% if search_results %}
+                    {% for ski in search_results[:3] %}
+                        <a href="{{ ski['deals'][0]['url'] }}" target="_blank" class="deal-card">
+                            <div class="deal-image">
+                                <img src="{{ ski['deals'][0]['image_url'] if ski['deals'][0]['image_url'] else 'https://via.placeholder.com/300x200?text=Ski+Image' }}" alt="{{ ski['name'] }}">
+                            </div>
+                            <div class="deal-info">
+                                <h3>{{ ski['name'] }}</h3>
+                                <div class="price-info">
+                                    <p class="current-price">{{ ski['deals'][0]['price'] }}</p>
+                                </div>
+                                <p class="store-name">{{ ski['deals'][0]['store'] }}</p>
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% elif default_skis %}
+                    {% for ski in default_skis[:3] %}
+                        <a href="{{ ski['deals'][0]['url'] }}" target="_blank" class="deal-card">
+                            <div class="deal-image">
+                                <img src="{{ ski['deals'][0]['image_url'] if ski['deals'][0]['image_url'] else 'https://via.placeholder.com/300x200?text=Ski+Image' }}" alt="{{ ski['name'] }}">
+                            </div>
+                            <div class="deal-info">
+                                <h3>{{ ski['name'] }}</h3>
+                                <div class="price-info">
+                                    <p class="current-price">{{ ski['deals'][0]['price'] }}</p>
+                                </div>
+                                <p class="store-name">{{ ski['deals'][0]['store'] }}</p>
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-results">
+                        <p>No matching skis found. Try a different search term.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <h2 class="trusted-text">Trusted by skiers worldwide</h2>
+</body>
+</html> 
