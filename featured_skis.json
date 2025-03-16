@@ -1,7 +1,7 @@
 {
     "featured_skis": [
         {
-            "name": "2025 Black Crows Mirus Cor",
+            "name": "2025 Black Crow Mirus Cor",
             "display_name": "Black Crows Mirus Cor",
             "year": 2025,
             "best_deal": {
@@ -20,7 +20,7 @@
             "tags": ["All Mountain", "Freeride"]
         },
         {
-            "name": "2025 Stöckli Montero AR",
+            "name": "2025 Stockli Montero AR",
             "display_name": "Stöckli Montero AR",
             "year": 2025,
             "best_deal": {
@@ -39,23 +39,21 @@
             "tags": ["All Mountain", "Performance"]
         },
         {
-            "name": "2025 Völkl M7 Mantra",
-            "display_name": "Völkl M7 Mantra",
+            "name": "2025 Volkl Mantra Flat",
+            "display_name": "2025 Volkl Mantra Flat",
             "year": 2025,
             "best_deal": {
-                "store": "Sports Basement",
+                "store": "Ski Haus",
                 "current_price": 543.96,
                 "original_price": 849.99,
-                "savings": {
-                    "amount": 306.03,
-                    "percentage": 36,
-                    "display": "Save $306"
-                },
-                "url": "https://shop.sportsbasement.com/products/m7-mantra",
-                "image_url": "/static/images/skis/volkl_m7_mantra.png"
+                "savings_amount": 306.03,
+                "savings_percentage": 36,
+                "display_text": "Save $306",
+                "url": "https://skihaus.com/2025-m7-mantra-flat-unisex-ski/",
+                "image_url": "/static/images/skis/völkl_m7_mantra.png"
             },
             "is_popular": true,
-            "tags": ["All Mountain", "Freeride"]
+            "tags": ["all-mountain", "freeride"]
         }
     ]
 } 

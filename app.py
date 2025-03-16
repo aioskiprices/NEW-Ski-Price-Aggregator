@@ -1,15 +1,27 @@
+import logging
 from flask import Flask, render_template, request, url_for
 import json
 import os
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-here'  # Required for session management
 
 def clean_price(price_str):
     """Convert price string to float, removing currency symbols and commas."""
-    if not price_str or price_str == "Price not found":
+    try:
+        if not price_str or price_str == "Price not found":
+            return float('inf')
+        return float(price_str.replace('$', '').replace(',', '').replace(' USD', ''))
+    except (ValueError, TypeError) as e:
+        logger.error(f"Error cleaning price {price_str}: {str(e)}")
         return float('inf')
-    return float(price_str.replace('$', '').replace(',', '').replace(' USD', ''))
 
 def load_ski_data():
     """Load and return ski data from JSON file."""
@@ -18,12 +30,16 @@ def load_ski_data():
         json_path = os.path.join(current_dir, 'ski_prices.json')
         with open(json_path, 'r') as f:
             data = json.load(f)
+            logger.info(f"Successfully loaded {len(data['skis'])} skis from ski_prices.json")
             return data['skis']
     except FileNotFoundError:
-        print("Warning: ski_prices.json not found")
+        logger.error("ski_prices.json not found")
         return []
     except json.JSONDecodeError:
-        print("Warning: Invalid JSON in ski_prices.json")
+        logger.error("Invalid JSON in ski_prices.json")
+        return []
+    except Exception as e:
+        logger.error(f"Unexpected error loading ski data: {str(e)}")
         return []
 
 def get_image_path(ski_name):
@@ -38,8 +54,8 @@ def get_image_path(ski_name):
         filename = "black_crows_mirus_cor"
     elif "stockli montero ar" in cleaned_name:
         filename = "stockli_montero_ar"
-    elif "m7 mantra" in cleaned_name or "völkl m7 mantra" in cleaned_name:
-        filename = "völkl_m7_mantra"
+    elif "mantra" in cleaned_name and ("volkl" in cleaned_name or "völkl" in cleaned_name):
+        filename = "volkl_mantra"
     else:
         # Default case: Replace spaces and special chars with underscores
         filename = cleaned_name.replace(' ', '_').replace('-', '_')
@@ -66,36 +82,35 @@ def find_best_deals(search_query=None):
     if search_query:
         # Filter skis based on search query
         matching_skis = []
-        search_query = search_query.lower()
+        search_query = search_query.lower().strip()
+        search_terms = search_query.split()
+        
         for ski in ski_data:
-            if search_query in ski['ski_name'].lower():
+            ski_name_lower = ski['ski_name'].lower()
+            # Check if all search terms are in the ski name
+            if all(term in ski_name_lower for term in search_terms):
                 matching_skis.append(ski)
+        
+        # Sort matching skis by price
+        matching_skis.sort(key=lambda x: clean_price(x['current_price']))
         ski_data = matching_skis
     else:
         # For the landing page, show our three specific skis
-        mirus_cor_options = []
-        montero_options = []
-        mantra_options = []
+        default_skis = []
+        for target_name in ["Black Crows Mirus Cor", "Stockli Montero AR", "Volkl Mantra"]:
+            target_name_lower = target_name.lower()
+            matching_options = []
+            
+            for ski in ski_data:
+                if target_name_lower in ski['ski_name'].lower():
+                    matching_options.append(ski)
+            
+            # Sort by price and get the cheapest option
+            if matching_options:
+                matching_options.sort(key=lambda x: clean_price(x['current_price']))
+                default_skis.append(matching_options[0])
         
-        for ski in ski_data:
-            if "Black Crows Mirus Cor" in ski['ski_name']:
-                mirus_cor_options.append(ski)
-            elif "Stockli Montero AR" in ski['ski_name']:
-                montero_options.append(ski)
-            elif "M7 Mantra" in ski['ski_name']:
-                mantra_options.append(ski)
-        
-        # Sort each list by price and get the cheapest option
-        ski_data = []
-        if mirus_cor_options:
-            mirus_cor_options.sort(key=lambda x: clean_price(x['current_price']))
-            ski_data.append(mirus_cor_options[0])
-        if montero_options:
-            montero_options.sort(key=lambda x: clean_price(x['current_price']))
-            ski_data.append(montero_options[0])
-        if mantra_options:
-            mantra_options.sort(key=lambda x: clean_price(x['current_price']))
-            ski_data.append(mantra_options[0])
+        ski_data = default_skis
     
     # Format the results
     formatted_results = []
@@ -118,37 +133,59 @@ def find_best_deals(search_query=None):
         formatted_results.append({
             'name': ski['ski_name'],
             'deals': [{
-                'price': ski['current_price'],
+                'price': f"${int(clean_price(ski['current_price']))}",
                 'store': ski['site_name'],
                 'url': ski['site_url'],
                 'image_url': url_for('static', filename=image_path),
-                'highest_price': f"${highest_price:.2f}",
-                'savings_amount': f"${savings_amount:.2f}",
-                'savings_percentage': f"{savings_percentage:.0f}%"
+                'highest_price': f"${int(highest_price)}" if highest_price > current_price else None,
+                'savings_amount': f"${int(savings_amount)}" if savings_amount > 0 else None,
+                'savings_percentage': f"{int(savings_percentage)}%" if savings_amount > 0 else None
             }]
         })
     
+    logger.info(f"Found {len(formatted_results)} results for query: {search_query}")
     return formatted_results
+
+def load_featured_skis():
+    """Load and return featured skis data from JSON file."""
+    try:
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(current_dir, 'featured_skis.json')
+        with open(json_path, 'r') as f:
+            data = json.load(f)
+            logger.info(f"Successfully loaded {len(data['featured_skis'])} featured skis")
+            return data['featured_skis']
+    except FileNotFoundError:
+        logger.error("featured_skis.json not found")
+        return []
+    except json.JSONDecodeError:
+        logger.error("Invalid JSON in featured_skis.json")
+        return []
+    except Exception as e:
+        logger.error(f"Unexpected error loading featured skis: {str(e)}")
+        return []
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     try:
-        # Always load default skis first
-        default_skis = find_best_deals()
+        # Load featured skis for the landing page
+        default_skis = load_featured_skis()
+        if not default_skis:
+            logger.warning("No featured skis loaded for landing page")
+        
         search_results = None
-
         if request.method == 'POST':
             search_query = request.form.get('ski_name', '').strip()
             if search_query:
                 search_results = find_best_deals(search_query)
-                print(f"Found {len(search_results)} results for '{search_query}'")
+                logger.info(f"Found {len(search_results)} results for '{search_query}'")
         
         return render_template('index.html', 
                              default_skis=default_skis if default_skis else None,
                              search_results=search_results if search_results else None)
     
     except Exception as e:
-        print(f"Error in index route: {str(e)}")
+        logger.error(f"Error in index route: {str(e)}")
         return render_template('index.html', default_skis=[], search_results=None)
 
 @app.route('/update-prices')
@@ -158,8 +195,16 @@ def update_prices():
 
 if __name__ == '__main__':
     # Development server configuration
-    app.run(
-        host='127.0.0.1',  # Only allow local connections
-        port=5000,
-        debug=True
-    ) 
+    if os.environ.get('FLASK_ENV') == 'development':
+        app.run(
+            host='127.0.0.1',
+            port=5000,
+            debug=True
+        )
+    else:
+        # Production configuration
+        app.run(
+            host='0.0.0.0',
+            port=8000,
+            debug=False
+        ) 
