@@ -1,0 +1,61 @@
+{
+    "featured_skis": [
+        {
+            "name": "2025 Black Crows Mirus Cor",
+            "display_name": "Black Crows Mirus Cor",
+            "year": 2025,
+            "best_deal": {
+                "store": "Baker Street",
+                "current_price": 699.96,
+                "original_price": 999.00,
+                "savings": {
+                    "amount": 299.04,
+                    "percentage": 30,
+                    "display": "Save $299"
+                },
+                "url": "https://bakerstsnow.com/products/black-crows-mirus-cor-skis-2025",
+                "image_url": "/static/images/skis/black_crows_mirus_cor.png"
+            },
+            "is_popular": true,
+            "tags": ["All Mountain", "Freeride"]
+        },
+        {
+            "name": "2025 Stöckli Montero AR",
+            "display_name": "Stöckli Montero AR",
+            "year": 2025,
+            "best_deal": {
+                "store": "Boot Pro",
+                "current_price": 1069.00,
+                "original_price": 1399.00,
+                "savings": {
+                    "amount": 330.00,
+                    "percentage": 24,
+                    "display": "Save $330"
+                },
+                "url": "https://www.thebootpro.net/montero-ar-2024.html",
+                "image_url": "/static/images/skis/stockli_montero_ar.png"
+            },
+            "is_popular": true,
+            "tags": ["All Mountain", "Performance"]
+        },
+        {
+            "name": "2025 Völkl M7 Mantra",
+            "display_name": "Völkl M7 Mantra",
+            "year": 2025,
+            "best_deal": {
+                "store": "Sports Basement",
+                "current_price": 543.96,
+                "original_price": 849.99,
+                "savings": {
+                    "amount": 306.03,
+                    "percentage": 36,
+                    "display": "Save $306"
+                },
+                "url": "https://shop.sportsbasement.com/products/m7-mantra",
+                "image_url": "/static/images/skis/volkl_m7_mantra.png"
+            },
+            "is_popular": true,
+            "tags": ["All Mountain", "Freeride"]
+        }
+    ]
+} 

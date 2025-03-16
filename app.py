@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 import json
 import os
 
@@ -12,12 +12,13 @@ def clean_price(price_str):
     return float(price_str.replace('$', '').replace(',', '').replace(' USD', ''))
 
 def load_ski_data():
+    """Load and return ski data from JSON file."""
     try:
         current_dir = os.path.dirname(os.path.abspath(__file__))
         json_path = os.path.join(current_dir, 'ski_prices.json')
         with open(json_path, 'r') as f:
             data = json.load(f)
-            return data['skis']  # Return just the skis array
+            return data['skis']
     except FileNotFoundError:
         print("Warning: ski_prices.json not found")
         return []
@@ -25,59 +26,129 @@ def load_ski_data():
         print("Warning: Invalid JSON in ski_prices.json")
         return []
 
-def format_ski_data(ski):
-    """Format ski data for template display."""
-    return {
-        'name': ski['ski_name'],
-        'deals': [{
-            'price': ski['current_price'],
-            'store': ski['site_name'],
-            'url': ski['site_url'],
-            'image_url': ski.get('image_url', ''),
-        }]
-    }
+def get_image_path(ski_name):
+    """Convert ski name to a valid filename and check if image exists."""
+    # Remove year and 'Skis' from the name, and clean up special characters
+    cleaned_name = ski_name.lower()
+    cleaned_name = cleaned_name.replace('skis', '').replace('2024', '').replace('2025', '').replace('2026', '')
+    cleaned_name = cleaned_name.replace('|', '').replace('  ', ' ').strip()
+    
+    # Handle special cases for our specific skis
+    if "black crows mirus cor" in cleaned_name:
+        filename = "black_crows_mirus_cor"
+    elif "stockli montero ar" in cleaned_name:
+        filename = "stockli_montero_ar"
+    elif "m7 mantra" in cleaned_name or "völkl m7 mantra" in cleaned_name:
+        filename = "völkl_m7_mantra"
+    else:
+        # Default case: Replace spaces and special chars with underscores
+        filename = cleaned_name.replace(' ', '_').replace('-', '_')
+    
+    print(f"Original ski name: {ski_name}")
+    print(f"Cleaned filename: {filename}")
+    
+    # Check for different possible extensions
+    for ext in ['.png', '.jpg', '.jpeg', '.webp']:
+        image_path = f'images/skis/{filename}{ext}'
+        full_path = os.path.join('static', image_path)
+        print(f"Checking path: {full_path}")
+        if os.path.exists(full_path):
+            print(f"Found image at: {image_path}")
+            return image_path
+    
+    print(f"No image found for {ski_name}, using default")
+    return 'images/skis/default_ski.jpg'
+
+def find_best_deals(search_query=None):
+    """Find best deals for skis, optionally filtered by search query."""
+    ski_data = load_ski_data()
+    
+    if search_query:
+        # Filter skis based on search query
+        matching_skis = []
+        search_query = search_query.lower()
+        for ski in ski_data:
+            if search_query in ski['ski_name'].lower():
+                matching_skis.append(ski)
+        ski_data = matching_skis
+    else:
+        # For the landing page, show our three specific skis
+        mirus_cor_options = []
+        montero_options = []
+        mantra_options = []
+        
+        for ski in ski_data:
+            if "Black Crows Mirus Cor" in ski['ski_name']:
+                mirus_cor_options.append(ski)
+            elif "Stockli Montero AR" in ski['ski_name']:
+                montero_options.append(ski)
+            elif "M7 Mantra" in ski['ski_name']:
+                mantra_options.append(ski)
+        
+        # Sort each list by price and get the cheapest option
+        ski_data = []
+        if mirus_cor_options:
+            mirus_cor_options.sort(key=lambda x: clean_price(x['current_price']))
+            ski_data.append(mirus_cor_options[0])
+        if montero_options:
+            montero_options.sort(key=lambda x: clean_price(x['current_price']))
+            ski_data.append(montero_options[0])
+        if mantra_options:
+            mantra_options.sort(key=lambda x: clean_price(x['current_price']))
+            ski_data.append(mantra_options[0])
+    
+    # Format the results
+    formatted_results = []
+    for ski in ski_data:
+        # Get the local image path for this ski
+        image_path = get_image_path(ski['ski_name'])
+        
+        # Find the highest price for this ski model to calculate savings
+        ski_name_base = ski['ski_name'].lower().replace('2024', '').replace('2025', '').replace('2026', '').strip()
+        all_prices = [clean_price(s['current_price']) for s in ski_data if 
+                     s['ski_name'].lower().replace('2024', '').replace('2025', '').replace('2026', '').strip() == ski_name_base]
+        
+        current_price = clean_price(ski['current_price'])
+        highest_price = max(all_prices) if all_prices else current_price
+        
+        # Calculate savings
+        savings_amount = highest_price - current_price
+        savings_percentage = (savings_amount / highest_price) * 100 if highest_price > 0 else 0
+        
+        formatted_results.append({
+            'name': ski['ski_name'],
+            'deals': [{
+                'price': ski['current_price'],
+                'store': ski['site_name'],
+                'url': ski['site_url'],
+                'image_url': url_for('static', filename=image_path),
+                'highest_price': f"${highest_price:.2f}",
+                'savings_amount': f"${savings_amount:.2f}",
+                'savings_percentage': f"{savings_percentage:.0f}%"
+            }]
+        })
+    
+    return formatted_results
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     try:
-        ski_data = load_ski_data()
-        print("Loaded ski data:", len(ski_data), "skis")  # Debug print
-        
+        # Always load default skis first
+        default_skis = find_best_deals()
+        search_results = None
+
         if request.method == 'POST':
-            search_query = request.form.get('ski_name', '').lower()
-            print("Search query:", search_query)  # Debug print
-            
-            # Filter skis based on search query
-            search_results = []
-            for ski in ski_data:
-                if search_query in ski['ski_name'].lower():
-                    formatted_ski = format_ski_data(ski)
-                    search_results.append(formatted_ski)
-                    print("Found matching ski:", ski['ski_name'])  # Debug print
-            
-            # Sort by price
-            search_results.sort(key=lambda x: clean_price(x['deals'][0]['price']))
-            print("Number of search results:", len(search_results))  # Debug print
-            
-            return render_template('index.html', 
-                                 search_results=search_results if search_results else None,
-                                 default_skis=[])
-        
-        # For initial page load, show all skis sorted by best price
-        default_skis = []
-        for ski in ski_data:
-            formatted_ski = format_ski_data(ski)
-            default_skis.append(formatted_ski)
-        
-        # Sort by price
-        default_skis.sort(key=lambda x: clean_price(x['deals'][0]['price']))
-        print("Number of default skis:", len(default_skis))  # Debug print
+            search_query = request.form.get('ski_name', '').strip()
+            if search_query:
+                search_results = find_best_deals(search_query)
+                print(f"Found {len(search_results)} results for '{search_query}'")
         
         return render_template('index.html', 
                              default_skis=default_skis if default_skis else None,
-                             search_results=None)
+                             search_results=search_results if search_results else None)
+    
     except Exception as e:
-        print(f"Error in index route: {str(e)}")  # Debug print
+        print(f"Error in index route: {str(e)}")
         return render_template('index.html', default_skis=[], search_results=None)
 
 @app.route('/update-prices')
