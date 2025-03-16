@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>SkiSniper - Find Your Perfect Skis</title>
-    <link rel="stylesheet" href="static/css/styles.css">
+    <link rel="stylesheet" href="/Ski-Price-Aggregator/static/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* Add any additional styles here */
@@ -10,7 +10,7 @@
 </head>
 <body>
     <header class="header">
-        <a href="/" class="logo">
+        <a href="/Ski-Price-Aggregator/" class="logo">
             <div class="logo-icon">
                 <i class="fas fa-mountain"></i>
             </div>
@@ -53,7 +53,7 @@
         // Load ski data from JSON file
         async function loadSkiData() {
             try {
-                const response = await fetch('ski_prices.json');
+                const response = await fetch('/Ski-Price-Aggregator/ski_prices.json');
                 const data = await response.json();
                 return data.skis;
             } catch (error) {
@@ -107,7 +107,7 @@
                 
                 card.innerHTML = `
                     <div class="deal-image">
-                        <img src="${ski.image_url || 'static/images/skis/default_ski.jpg'}" alt="${ski.ski_name}">
+                        <img src="${ski.image_url || '/Ski-Price-Aggregator/static/images/skis/default_ski.jpg'}" alt="${ski.ski_name}">
                     </div>
                     <div class="deal-info">
                         <h3>${ski.ski_name}</h3>
