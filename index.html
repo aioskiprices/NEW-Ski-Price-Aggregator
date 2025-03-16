@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SkiSniper - Find Your Perfect Skis</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Add any additional styles here */
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="/" class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-mountain"></i>
+            </div>
+        </a>
+        <nav class="nav-container">
+            <div class="nav-links">
+                <a href="#" class="nav-link">Featured Deals</a>
+                <a href="#" class="nav-link">Browse All</a>
+                <a href="#" class="nav-link">About</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section class="hero-section">
+            <div class="live-tag">
+                <i class="fas fa-circle"></i>
+                Live Prices
+            </div>
+            <h1 class="hero-title">Find the Best <span>Ski Deals</span> Online</h1>
+            <p class="hero-description">
+                Compare prices across multiple retailers and find the best deals on your favorite skis.
+            </p>
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search for skis...">
+                <button onclick="searchSkis()" class="search-button">
+                    <i class="fas fa-arrow-right"></i>
+                    Search
+                </button>
+            </div>
+        </section>
+
+        <section id="resultsSection" class="deals-grid">
+            <!-- Results will be populated here -->
+        </section>
+    </main>
+
+    <script>
+        // Load ski data from JSON file
+        async function loadSkiData() {
+            try {
+                const response = await fetch('ski_prices.json');
+                const data = await response.json();
+                return data.skis;
+            } catch (error) {
+                console.error('Error loading ski data:', error);
+                return [];
+            }
+        }
+
+        // Clean price string to number
+        function cleanPrice(priceStr) {
+            if (!priceStr || priceStr === "Price not found") {
+                return Infinity;
+            }
+            return parseFloat(priceStr.replace('$', '').replace(',', '').replace(' USD', ''));
+        }
+
+        // Search for skis
+        async function searchSkis() {
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+            const skiData = await loadSkiData();
+            
+            // Filter and sort results
+            let results = skiData;
+            if (searchQuery) {
+                const searchTerms = searchQuery.split(' ');
+                results = skiData.filter(ski => {
+                    const skiName = ski.ski_name.toLowerCase();
+                    return searchTerms.every(term => skiName.includes(term));
+                });
+            }
+            
+            // Sort by price
+            results.sort((a, b) => cleanPrice(a.current_price) - cleanPrice(b.current_price));
+            
+            // Display results
+            displayResults(results);
+        }
+
+        // Display results in the grid
+        function displayResults(results) {
+            const resultsSection = document.getElementById('resultsSection');
+            resultsSection.innerHTML = '';
+
+            results.forEach(ski => {
+                const card = document.createElement('a');
+                card.href = ski.site_url;
+                card.target = "_blank";
+                card.className = 'deal-card';
+                
+                const price = cleanPrice(ski.current_price);
+                
+                card.innerHTML = `
+                    <div class="deal-image">
+                        <img src="${ski.image_url || 'static/images/skis/default_ski.jpg'}" alt="${ski.ski_name}">
+                    </div>
+                    <div class="deal-info">
+                        <h3>${ski.ski_name}</h3>
+                        <p class="price">$${price.toFixed(2)}</p>
+                        <p class="store">${ski.site_name}</p>
+                    </div>
+                `;
+                
+                resultsSection.appendChild(card);
+            });
+        }
+
+        // Load initial featured deals
+        window.onload = async () => {
+            const skiData = await loadSkiData();
+            const featuredSkis = skiData.slice(0, 3); // Show first 3 skis as featured
+            displayResults(featuredSkis);
+        };
+    </script>
+</body>
+</html> 

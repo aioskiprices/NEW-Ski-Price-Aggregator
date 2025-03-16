@@ -1,65 +1,24 @@
-# SkiSniper
+# SkiSniper - GitHub Pages Branch
 
-SkiSniper is a web application that helps users find the best deals on skis by aggregating prices from multiple retailers.
+This branch contains the static website version of SkiSniper, optimized for GitHub Pages deployment. The site allows users to search and compare ski prices across multiple retailers.
 
 ## Features
 
-- Real-time price comparison across 10+ retailers
-- Search functionality for specific ski models
-- Clean, modern UI with responsive design
-- Automatic price updates
-- Direct links to retailer websites
+- Search for skis across multiple retailers
+- Compare prices in real-time
+- View detailed ski information and images
+- Direct links to retailer pages
 
-## Installation
+## Development
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/SkiSniper.git
-cd SkiSniper
-```
+The main development branch contains the full Flask application. This branch (`gh-pages`) contains only the static assets needed for the GitHub Pages deployment.
 
-2. Create a virtual environment and activate it:
-```bash
-python3 -m venv venv
-source venv/bin/activate  # On Windows, use: venv\Scripts\activate
-```
+To update the ski prices:
 
-3. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+1. Run the price update script from the main branch
+2. Copy the updated `ski_prices.json` to this branch
+3. Commit and push the changes
 
-4. Run the application:
-```bash
-python app.py
-```
+## Deployment
 
-The application will be available at `http://127.0.0.1:5000`
-
-## Project Structure
-
-```
-SkiSniper/
-├── app.py              # Main Flask application
-├── ski_prices.json     # Database of ski prices
-├── requirements.txt    # Python dependencies
-├── static/            
-│   └── css/
-│       └── styles.css  # Application styles
-├── templates/
-│   └── index.html     # Main template
-└── scrapers/          # Price scraping scripts
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature/improvement`)
-3. Make your changes
-4. Commit your changes (`git commit -am 'Add new feature'`)
-5. Push to the branch (`git push origin feature/improvement`)
-6. Create a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details. 
+The site is automatically deployed to GitHub Pages when changes are pushed to this branch. You can view the live site at: [https://[username].github.io/Ski-Price-Aggregator](https://[username].github.io/Ski-Price-Aggregator) 
