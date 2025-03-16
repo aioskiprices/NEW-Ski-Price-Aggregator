@@ -206,17 +206,51 @@ body {
     margin-bottom: 0.75rem;
 }
 
+.price-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+    text-align: left;
+    padding-left: 0.5rem;
+}
+
+.price-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.price-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+}
+
+.original-price {
+    color: var(--secondary-text);
+    text-decoration: line-through;
+    font-size: 1.25rem;
+    font-weight: 500;
+    opacity: 0.7;
+}
+
 .current-price {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--text-color);
-    display: block;
-    margin-bottom: 0.25rem;
+    color: #2ECC71;
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
 }
 
 .store-name {
     color: var(--secondary-text);
     font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    text-align: left;
+    width: 100%;
 }
 
 .search-wrapper {
@@ -261,11 +295,6 @@ body {
     font-size: 1rem;
     cursor: pointer;
     white-space: nowrap;
-}
-
-/* Hide unnecessary elements */
-.savings-amount, .savings-badge {
-    display: none;
 }
 
 .deals-grid {
@@ -321,45 +350,6 @@ body {
     font-weight: 700;
     margin-bottom: 1rem;
     line-height: 1.2;
-}
-
-.price-info {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.original-price {
-    color: var(--secondary-text);
-    text-decoration: line-through;
-    font-size: 1rem;
-    margin: 0;
-}
-
-.savings {
-    background: rgba(187, 255, 0, 0.1);
-    color: var(--primary-color);
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    margin: 0;
-}
-
-.no-results {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 3rem;
-    background: var(--card-bg);
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.no-results p {
-    color: var(--secondary-text);
-    font-size: 1.125rem;
-    margin: 0;
 }
 
 .search-section {
